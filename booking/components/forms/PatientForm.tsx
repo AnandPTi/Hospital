@@ -1,15 +1,16 @@
-"use client"
+"use client";
  
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import {Form} from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
+import { createUser } from "@/lib/actions/patients.actions"
+import "react-phone-number-input/style.css";
 
 export enum FormFieldType{
     INPUT='input',
@@ -23,7 +24,7 @@ export enum FormFieldType{
 
 
 const PatientForm=()=> {
-  // 1. Define your form.
+//   // 1. Define your form.
   const router = useRouter();
   const [isLoading, setIsLoading]=useState(false);
   const form = useForm<z.infer<typeof UserFormValidation>>({
@@ -33,22 +34,46 @@ const PatientForm=()=> {
       email: "",
       phone: "",
     },
-  })
+  });
  
-  // 2. Define a submit handler.
-   async function onSubmit({name, email,phone}: z.infer<typeof UserFormValidation>) {
+//   // 2. Define a submit handler.
+//   const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+//     setIsLoading(true);
+
+//     try {
+//       const user = {
+//         name: values.name,
+//         email: values.email,
+//         phone: values.phone,
+//       };
+
+//       const newUser = await createUser(user);
+
+//       if (newUser) {
+//         router.push(`/patients/${newUser.$id}/register`);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+
+//     setIsLoading(false);
+//   };
+  async function onSubmit({ name, email, phone }: z.infer<typeof UserFormValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsLoading(true);
-    try{
-        // const userData={ name, email, phone};
-        // const user = await createUser(userData);
-        // if(user) router.push(`/patients/${user.$id}/register`)
-    } catch(error){
-        console.log(error);
-    }
+    try {
+      const userData = { name, email, phone };
+      const user = await createUser(userData);
+      if (user) router.push(`/patients/${user.$id}/register`)
+    } catch (error) {
+      console.log(error);
+    } //finally {
+    setIsLoading(false);
+    //}
     //console.log(values)
   }
+  
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
