@@ -13,9 +13,10 @@ import { createUser } from "@/lib/actions/patients.actions";
 import "react-phone-number-input/style.css";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOptions } from "@/constants";
+import { Doctors, GenderOptions } from "@/constants";
 import { Label } from "../ui/label";
-
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
 const RegisterForm = ({user}: {user: User}) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -167,7 +168,28 @@ const RegisterForm = ({user}: {user: User}) => {
                 <h2 className="sub-header">Medical Information</h2>
             </div>
         </section>
-        
+        <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="primaryPhysician"
+                label="Primary Physician"
+                placeholder="Select a physician"
+        >
+          {Doctors.map((doctor)=>(
+            <SelectItem key={doctor.name} value={doctor.name}>
+              <div className="flex cursor-poiner item-center gap-2 gap-6">
+                <Image
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt={doctor.name}
+                  className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
+          ))}
+        </CustomFormField>
         <div className="flex flex-col gap-6 xl:flex-row">
 
         </div>
