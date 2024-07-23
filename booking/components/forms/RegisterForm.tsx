@@ -19,19 +19,31 @@ import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import FileUploader from "../FileUploader";
 
+// const RegisterForm = ({ user }: { user: User }) => {
+//   const router = useRouter();
+//   const [isLoading, setIsLoading] = useState(false);
+//   const form = useForm<z.infer<typeof PatientFormValidation>>({
+//     resolver: zodResolver(PatientFormValidation),
+//     defaultValues: {
+//       ...PatientFormDefaultValues,
+//       name: "",
+//       email: "",
+//       phone: "",
+//     },
+//   });
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
-      ...PatientFormDefaultValues,
-      name: "",
-      email: "",
-      phone: "",
+      ...PatientFormDefaultValues,  // Make sure this contains all required fields
+      name: user.name || "",
+      email: user.email || "",
+      phone: user.phone || "",
     },
   });
-
   const onSubmit = async (values: z.infer<typeof PatientFormValidation>) => {
     setIsLoading(true);
     let formData;
