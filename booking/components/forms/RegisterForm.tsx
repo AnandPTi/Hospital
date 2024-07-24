@@ -18,7 +18,7 @@ import { Label } from "../ui/label";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import FileUploader from "../FileUploader";
-
+//importnat hightlights
 // const RegisterForm = ({ user }: { user: User }) => {
 //   const router = useRouter();
 //   const [isLoading, setIsLoading] = useState(false);
