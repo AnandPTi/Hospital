@@ -31,6 +31,7 @@ import FileUploader from "../FileUploader";
 //       phone: "",
 //     },
 //   });
+//routing is mentioned below for defalt and otheer parameters
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
