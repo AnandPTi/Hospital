@@ -32,7 +32,7 @@ import FileUploader from "../FileUploader";
 //     },
 //   });
 
-//routing is modmentioned below for defalt and otheer parameters
+//routing is modmentioned  tab switch indexing below for defalt and otheer parameters
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
