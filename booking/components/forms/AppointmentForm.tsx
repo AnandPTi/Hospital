@@ -22,7 +22,7 @@ const AppointmentForm = ({
 }:{
     userId: string;
     patientId: string;
-    type: "create" | "cancel";
+    type: "create" | "cancel"|"schedule";
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,20 @@ const AppointmentForm = ({
       setIsLoading(false);
     }
   };
-
+  let buttonLabel;
+  switch(type){
+    case 'cancel':
+        buttonLabel='Cancel Appointment';
+        break;
+    case 'create':
+        buttonLabel='Create Appointment';
+        break;
+    case 'schedule':
+        buttonLabel='Schedule Appointment';
+        break;
+    default:
+        break;
+  }
   return (
     <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
@@ -99,7 +112,7 @@ const AppointmentForm = ({
                 dateFormat="MM/dd/yyyy - h:mm aa"
                 />
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 xl:flex-row">
                 <CustomFormField
                     fieldType={FormFieldType.TEXTAREA}
                     control={form.control}
@@ -132,7 +145,7 @@ const AppointmentForm = ({
             isLoading={isLoading}
             className={`${type === 'cancel' ? 'shad-danger-btn' : 'shad-primary-btn'} w-full`}
             >
-            Get Started
+            {buttonLabel}
             </SubmitButton>
         </form>
         </Form>
