@@ -7,7 +7,7 @@ import { Form, FormField } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
-import { UserFormValidation } from "@/lib/validation";
+import { AppointmentFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patients.actions";
 import "react-phone-number-input/style.css";
@@ -26,30 +26,46 @@ const AppointmentForm = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<z.infer<typeof UserFormValidation>>({
-    resolver: zodResolver(UserFormValidation),
+  const form = useForm<z.infer<typeof AppointmentFormValidation>>({
+    resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
+      primaryPhysician: "",
+      schedule: new Date(),
+      reason: "",
+      note:"",
+      cancellationReason:"",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+  const onSubmit = async (values: z.infer<typeof AppointmentFormValidation>) => {
     setIsLoading(true);
 
+    let status;
+    switch(type){
+        case 'schedule':
+            status = 'scheduled';
+            break;
+        case 'cancel':
+            status='cancelled';
+            break;
+        default:
+            status='pending';
+            break;
+    }
     try {
-      const user = {
-        name: values.name,
-        email: values.email,
-        phone: values.phone,
-      };
-
-      const newUser = await createUser(user);
-
-      if (newUser) {
-        router.push(`/patients/${newUser.$id}/register`);
+      if(type ==='create' && patientId){
+        const appointmentData=
+        {
+            userId,
+            patient:patientId,
+            primaryPhysician: values.primaryPhsician,
+            schedule: new Date(values.schedule),
+            reason: values.reason,
+            note: values.note,
+            status: status as Status,
+        }       
       }
+      //const appointment=await createAppointment(appointmentData);
     } catch (error) {
       console.log(error);
     } finally {
