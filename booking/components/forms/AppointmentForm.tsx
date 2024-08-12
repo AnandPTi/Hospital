@@ -15,6 +15,7 @@ import { FormFieldType } from "./PatientForm";
 import { Doctors } from "@/constants";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
+import { createAppointment } from "@/lib/actions/appointment.actions";
 
 
 const AppointmentForm = ({
@@ -65,7 +66,7 @@ const AppointmentForm = ({
             status: status as Status,
         }       
       }
-      //const appointment=await createAppointment(appointmentData);
+      const appointment=await createAppointment(appointmentData);
     } catch (error) {
       console.log(error);
     } finally {
